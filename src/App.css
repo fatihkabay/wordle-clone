@@ -36,15 +36,15 @@ nav h1 {
 }
 
 .board {
-  width: 450px;
-  height: 550px;
+  width: 350px;
+  height: 400px;
   border: 1px solid black;
   display: flex;
   flex-direction: column;
 }
 
 .row {
-  flex: 33%;
+  height: 50px;
   display: flex;
   flex-direction: row;
   margin: 5px;
@@ -78,7 +78,7 @@ nav h1 {
 .keyboard {
   width: 700px;
   height: 300px;
-  margin-top: 60px;
+  margin-top: 55px;
 }
 
 .line1 {
@@ -105,8 +105,8 @@ nav h1 {
 }
 
 .key {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 60px;
   margin: 5px;
   border-radius: 4px;
   display: grid;

@@ -3,6 +3,7 @@ import "./App.css";
 import Board from "./Components/Board";
 import Keyboard from "./Components/Keyboard";
 import { boardDefault, generateWordSet } from "./Words";
+import GameOver from "./Components/GameOver";
 
 export const AppContext = createContext();
 
@@ -10,20 +11,24 @@ function App() {
   const [board, setBoard] = useState(boardDefault);
   const [currAttempt, setCurrAttempt] = useState({ attempt: 0, letterPos: 0 });
   const [wordSet, setWordSet] = useState(new Set());
-  const [disabledLetters, setDisabledLetters] = useState([])
-
-  const correctWord = "RIGHT";
+  const [disabledLetters, setDisabledLetters] = useState([]);
+  const [correctWord, setCorrectWord] = useState("");
+  const [gameOver, setGameOver] = useState({
+    gameOver: false,
+    guessedWord: false,
+  });
 
   useEffect(() => {
     generateWordSet().then((words) => {
       setWordSet(words.wordSet);
+      setCorrectWord(words.todaysWord);
     });
   }, []);
 
-  const onSelectLetter = (keyVal) => {
+  const onSelectLetter = (key) => {
     if (currAttempt.letterPos > 4) return;
     const newBoard = [...board];
-    newBoard[currAttempt.attempt][currAttempt.letterPos] = keyVal;
+    newBoard[currAttempt.attempt][currAttempt.letterPos] = key;
     setBoard(newBoard);
     setCurrAttempt({ ...currAttempt, letterPos: currAttempt.letterPos + 1 });
   };
@@ -50,7 +55,11 @@ function App() {
       alert("Word Not Found!");
     }
     if (currWord === correctWord) {
-      alert("Game Ended!");
+      setGameOver({ gameOver: true, guessedWord: true });
+      return;
+    }
+    if (currAttempt.attempt === 5) {
+      setGameOver({ gameOver: true, guessedWord: false });
     }
   };
 
@@ -71,11 +80,13 @@ function App() {
           correctWord,
           disabledLetters,
           setDisabledLetters,
+          setGameOver,
+          gameOver,
         }}
       >
         <div className="game">
           <Board />
-          <Keyboard />
+          {gameOver.gameOver ? <GameOver /> : <Keyboard />}
         </div>
       </AppContext.Provider>
     </div>

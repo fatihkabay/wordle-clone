@@ -13,11 +13,13 @@ function Keyboard() {
     onSelectLetter,
     onEnter,
     onDelete,
+    gameOver,
     disabledLetters
   } = useContext(AppContext);
 
   const handleKeyboard = useCallback(
     (event) => {
+      if (gameOver.gameOver) return;
       if (event.key === "Enter") {
         onEnter();
       } else if (event.key === "Backspace") {
